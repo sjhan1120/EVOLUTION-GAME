@@ -1,5 +1,5 @@
 import sys
-print("버전관리 테스")
+print("버전관리 테스트")
 
 POPULATION = 0                  #생물 개체수 구현
 CREATURETALENT = []             #생물 특성 구현. 리스트 안에 특성이 쌓여가는 방식.
