@@ -1,5 +1,5 @@
 import sys
-print("버전업 테스트")
+print("버전관리 테스")
 
 POPULATION = 0                  #생물 개체수 구현
 CREATURETALENT = []             #생물 특성 구현. 리스트 안에 특성이 쌓여가는 방식.
@@ -60,7 +60,7 @@ def main():
         selectEvolution(i)       #진화 선택
 
         next = input("아무키나 눌러 다음턴으로 넘기십시오.") #플레이어가 다음턴으로 넘김
-        if next == 'e':  #만약 e를 눌렀다면 즉시 게임승리 후 게임종
+        if next == 'e':  #만약 e를 눌렀다면 즉시 게임승리 후 게임종료
             break
         else:
             print("------------------------")
