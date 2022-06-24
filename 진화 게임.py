@@ -1,5 +1,6 @@
 import sys
-print("버전관리 테스트")
+print("#####진화 게임을 시작합니다.#####")
+print()
 
 POPULATION = 0                  #생물 개체수 구현
 CREATURETALENT = []             #생물 특성 구현. 리스트 안에 특성이 쌓여가는 방식.
