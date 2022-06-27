@@ -6,7 +6,6 @@ POPULATION = 0                  #생물 개체수 구현
 CREATURETALENT = []             #생물 특성 구현. 리스트 안에 특성이 쌓여가는 방식.
 EVOLUTIONLIST = [               #선택할 수 있는 진화들을 모아둔 리스트.
     '지방층', '방한 털', '표면적 감소'
-    
     ]
 COLD = 0                        #환경 영향인 추위 구현
 COLDRESPONSE = 0                #추위에 대응하는 추위내성 구현
@@ -28,6 +27,7 @@ def environmentEffect(turn):        #환경 영향 구현
 
     if POPULATION <= 0: #만약 생물 개체수가 0 이하가 되면 게임오버
         print("생물이 멸종하였습니다.")
+        print("게임에서 패배했습니다.")
         sys.exit(0)
         
 
@@ -44,14 +44,20 @@ def selectEvolution(turn):          #진화 선택 구현
             
         else:                                       #진화 특성에 해당하는 이름을 입력하지 않았다면 진화 안함.
             print("생물이 진화에 실패했습니다.")
-            
+
+def massExtinctions():  #생물 대멸종 구현
+    global COLD, POPULATION
+    COLD += 5               #매 턴마다 추위 5씩 증가
         
 def main():
     global POPULATION          #전역변수로 접근하기 위한 설정
-    for i in range(20):        #턴 구현. 총 20턴 반복. 일단 테스트 용도로 20턴이고 실제는 100턴.
+    for i in range(60):        #턴 구현. 총 60턴 반복. 일단 테스트 용도로 20턴이고 실제는 100턴.
         POPULATION += 100      #기본으로 1턴마다 개체수 100마리 씩 증가
         
         print("현재 " + str(i + 1) + "번째 턴입니다.") #현재 턴 표시
+        if (i+1 >= 50):                                 #50턴부터 생물대멸종 이벤트 시작
+            print("생물 대멸종이 일어나고 있습니다.")
+            massExtinctions()
         
         environmentEffect(i)    #환경의 영향을 받음
         displayInformation()    #현재 생물 정보 표시
@@ -60,7 +66,7 @@ def main():
         
         selectEvolution(i)       #진화 선택
 
-        next = input("아무키나 눌러 다음턴으로 넘기십시오.") #플레이어가 다음턴으로 넘김
+        next = input("엔터를 눌러 다음턴으로 넘기십시오.") #플레이어가 다음턴으로 넘김
         if next == 'e':  #만약 e를 눌렀다면 즉시 게임승리 후 게임종료
             break
         else:
