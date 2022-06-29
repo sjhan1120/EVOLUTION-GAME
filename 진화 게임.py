@@ -79,7 +79,7 @@ def preyHunting():          #사냥성공확률에 따른 굶주림 증감 구�
 def main():
     global POPULATION          #전역변수로 접근하기 위한 설정
     for i in range(60):        #턴 구현. 총 60턴 반복. 일단 테스트 용도로 20턴이고 실제는 100턴.
-        POPULATION += 100      #기본으로 1턴마다 개체수 100마리 씩 증가
+        POPULATION += int(100+(POPULATION*0.06))      #기본으로 1턴마다 개체수 100+이전 턴 개체수의 6%씩 증가
         
         print("현재 " + str(i + 1) + "번째 턴입니다.") #현재 턴 표시
         if (i+1 >= 50):                                 #50턴부터 생물대멸종 이벤트 시작
