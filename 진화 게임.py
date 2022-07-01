@@ -32,13 +32,24 @@ def environmentEffect(turn):        #환경 영향 구현
         print("생물이 멸종하였습니다.")
         print("게임에서 패배했습니다.")
         sys.exit(0)
-        
+
+def showRandomevolution():      #3개의 랜덤한 진화 특성 나열 구현
+    show_list = []
+    while True:                 #새로운 리스트를 만들고 리스트 안에 랜덤한 3개의 진화특성을 넣어 보여줌
+        rand_num = random.randrange(0, len(EVOLUTIONLIST))
+        rand_evol = EVOLUTIONLIST[rand_num]
+        if rand_evol in show_list:  #중복되는 진화특성이 없도록 함
+            continue
+        show_list.append(rand_evol)
+        if len(show_list) == 3:     #3개가 모두 채워졌다면 while문 나가기
+            break
+    return print(show_list)
 
 def selectEvolution(turn):          #진화 선택 구현
     global EVOLUTIONLIST, COLD, COLDRESPONSE, CREATURETALENT
     if (turn + 1) % 3 == 0:     #3턴마다 진화 선택 가능.
         print("생물을 진화시키십시오.")
-        print("진화 목록 : " + str(EVOLUTIONLIST))    #진화할 수 있는 목록을 나열하여 거기서 플레이어가 선택하는 방식. 원래는 3개가 랜덤하게 나오고 거기서 뽑아야함. 나중에 고치자.
+        showRandomevolution()    #진화할 수 있는 목록을 나열하여 거기서 플레이어가 선택하는 방식. randomevolution함수를 이용해 랜덤한 특성 3개를 보여줌.
         evol = input("진화할 특성 : ")   #진화 특성에 해당하는 이름을 입력하면 해당 특성이 플레이어의 생물 특성 리스트에 쌓임.
         if evol == "지방층" or evol == "방한 털" or evol == "표면적 감소":  #만약 추위내성을 얻는 진화를 선택했을 경우 추위내성 1스택 추가됨.
             print("생물이 진화에 성공했습니다.")
