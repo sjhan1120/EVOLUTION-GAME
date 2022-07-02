@@ -4,8 +4,18 @@ import random
 POPULATION = 0                  #생물 개체수 구현
 CREATURETALENT = []             #생물 특성 구현. 리스트 안에 특성이 쌓여가는 방식.
 EVOLUTIONLIST = [               #선택할 수 있는 진화들을 모아둔 리스트.
-    '지방층', '방한 털', '표면적 감소'
+    '지방층', '방한 털', '표면적 감소',
+    '갈고리 발톱', '질주'
     ]
+
+    #---진화특성 설명---
+    #지방층 : COLDRESPONSE +3, HUNT -0.05
+    #방한털 : COLDRESPONSE +1
+    #표면적 감소 : COLDRESPONSE +2, HUNT -0.02
+    #갈고리 발톱 : HUNT +0.03
+    #질주 : HUNT + 0.05, COLDRESPONSE -1
+    #-------------------
+
 COLD = 0                        #환경 영향인 추위 구현
 COLDRESPONSE = 0                #추위에 대응하는 추위내성 구현
 HUNT = 0.5                      #사냥성공확률 구현. 초기값은 0.5로 성공 실패 각각 절반 확률
@@ -43,20 +53,40 @@ def showRandomevolution():      #3개의 랜덤한 진화 특성 나열 구현
         show_list.append(rand_evol)
         if len(show_list) == 3:     #3개가 모두 채워졌다면 while문 나가기
             break
-    return print(show_list)
+    print(show_list)
+    return show_list
 
 def selectEvolution(turn):          #진화 선택 구현
-    global EVOLUTIONLIST, COLD, COLDRESPONSE, CREATURETALENT
+    global EVOLUTIONLIST, COLD, COLDRESPONSE, CREATURETALENT, HUNT
     if (turn + 1) % 3 == 0:     #3턴마다 진화 선택 가능.
         print("생물을 진화시키십시오.")
-        showRandomevolution()    #진화할 수 있는 목록을 나열하여 거기서 플레이어가 선택하는 방식. randomevolution함수를 이용해 랜덤한 특성 3개를 보여줌.
+        show_list = showRandomevolution()    #진화할 수 있는 목록을 나열하여 거기서 플레이어가 선택하는 방식. randomevolution함수를 이용해 랜덤한 특성 3개를 보여줌.
         evol = input("진화할 특성 : ")   #진화 특성에 해당하는 이름을 입력하면 해당 특성이 플레이어의 생물 특성 리스트에 쌓임.
-        if evol == "지방층" or evol == "방한 털" or evol == "표면적 감소":  #만약 추위내성을 얻는 진화를 선택했을 경우 추위내성 1스택 추가됨.
-            print("생물이 진화에 성공했습니다.")
-            COLDRESPONSE += 1
-            CREATURETALENT.append(evol)
-            
-        else:                                       #진화 특성에 해당하는 이름을 입력하지 않았다면 진화 안함.
+        if evol in show_list:       #랜덤으로 나온 3개의 특성이 아닌 다른 특성을 고르는 것을 방지해줌.
+            if evol == "지방층":  #만약 추위내성을 얻는 진화를 선택했을 경우 추위내성 1스택 추가됨.
+                print("생물이 진화에 성공했습니다.")
+                COLDRESPONSE += 3
+                HUNT -= 0.05
+                CREATURETALENT.append(evol)
+            elif evol == "방한 털":
+                print("생물이 진화에 성공했습니다.")
+                COLDRESPONSE += 1
+                CREATURETALENT.append(evol)
+            elif evol == "표면적 감소":
+                print("생물이 진화에 성공했습니다.")
+                COLDRESPONSE += 2
+                HUNT -= 0.02
+                CREATURETALENT.append(evol)
+            elif evol == "갈고리 발톱":
+                print("생물이 진화에 성공했습니다.")
+                HUNT += 0.03
+                CREATURETALENT.append(evol)
+            elif evol == "질주":
+                print("생물이 진화에 성공했습니다.")
+                HUNT += 0.05
+                COLDRESPONSE -= 1
+                CREATURETALENT.append(evol)
+        else:                       #랜덤으로 나온 진화 특성에 해당하는 이름을 입력하지 않았다면 진화 안함.
             print("생물이 진화에 실패했습니다.")
 
 def massExtinctions():  #생물 대멸종 구현
